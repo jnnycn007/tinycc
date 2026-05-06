@@ -19,15 +19,6 @@ ifeq (,$(filter i386 x86_64,$(ARCH)))
  SKIP += 85_asm-outside-function.test # x86 asm
  SKIP += 127_asm_goto.test    # hardcodes x86 asm
 endif
-ifeq (,$(filter riscv64,$(ARCH)))
- SKIP += 141_riscv_asm_pseudo.test   # riscv64 asm
- SKIP += 142_riscv_asm_longlong.test # riscv64 asm
- SKIP += 143_riscv_asm_farith.test   # riscv64 asm
- SKIP += 144_riscv_csr_pseudo.test   # riscv64 asm
- SKIP += 145_riscv_fp_cmp_cvt.test   # riscv64 asm
- SKIP += 146_riscv_amo.test          # riscv64 asm
- SKIP += 147_riscv_fcvt_round.test   # riscv64 asm
-endif
 ifeq ($(CONFIG_backtrace),no)
  SKIP += 113_btdll.test
  CONFIG_bcheck = no
@@ -66,6 +57,9 @@ ifeq (,$(filter arm64 aarch64,$(ARCH)))
  SKIP += 138_arm64_encoding.test
  SKIP += 139_arm64_errors.test
  SKIP += 140_arm64_extasm.test
+endif
+ifeq (,$(filter riscv64,$(ARCH)))
+ SKIP += 141_riscv_asm.test # riscv64 asm
 endif
 
 # Some tests might need arguments
@@ -145,6 +139,7 @@ endif
 128_run_atexit.test: FLAGS += -dt
 132_bound_test.test: FLAGS += -b
 140_arm64_extasm.test: GEN = $(GEN-TCC)
+141_riscv_asm.test: FLAGS += -bt
 
 # Filter source directory in warnings/errors (out-of-tree builds)
 FILTER = 2>&1 | sed -e 's,$(SRC)/,,g'
